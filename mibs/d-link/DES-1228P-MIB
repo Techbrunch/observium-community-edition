@@ -536,9 +536,10 @@
         ConfigPortEntry ::= SEQUENCE {
             configPort                 INTEGER,
             configPortSpeed            INTEGER,
-            configPortOperStatus       INTEGER
+            configPortOperStatus       INTEGER,
          -- configPortFlowControl      INTEGER,
          -- configPortFlowControlOper  INTEGER,
+	    configPortPriority         INTEGER
         }
 
         configPort OBJECT-TYPE
@@ -605,6 +606,23 @@
   --              "The port's operating flow control state."
   --          ::= { configPortEntry 5 }
 
+        configPortPriority OBJECT-TYPE
+            SYNTAX INTEGER {
+                   low(1),
+                   middle(2),
+                   high(3),
+                   highest(4)
+            }
+            ACCESS read-write
+            STATUS mandatory
+            DESCRIPTION
+            "For ingress untagged packets, the per port 'Default Priority'
+             setting will be applied to packets of each port to provide 
+             port-based traffic prioritization.
+             For ingress tagged packets, D-Link Smart Switches will refer
+             to their 802.1p information and prioritize them with 4
+             different priority queues."
+            ::= { configPortEntry 6 }
 
         --
         -- VLAN Mode
